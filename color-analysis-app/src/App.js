@@ -5,6 +5,8 @@ function App() {
   const [color, setColor] = useState(null);
   const [file, setFile] = useState(null); // Store file for later use
 
+  const API_URL = "https://color-analysis-app.onrender.com"; // Updated API URL
+
   const handleImageUpload = async (event) => {
     const uploadedFile = event.target.files[0];
     if (uploadedFile) {
@@ -15,7 +17,7 @@ function App() {
       formData.append("image", uploadedFile);
 
       try {
-        const response = await fetch("http://127.0.0.1:5000/analyze-color", {
+        const response = await fetch(`${API_URL}/analyze-color`, {
           method: "POST",
           body: formData,
         });
@@ -42,7 +44,7 @@ function App() {
     formData.append("image", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/generate-pdf", {
+      const response = await fetch(`${API_URL}/generate-pdf`, {
         method: "POST",
         body: formData,
       });
@@ -51,11 +53,9 @@ function App() {
         throw new Error("Failed to generate PDF");
       }
 
-      // Convert response to a blob (binary large object)
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
 
-      // Create a temporary link element to trigger download
       const a = document.createElement("a");
       a.href = url;
       a.download = "color_analysis.pdf"; // File name
