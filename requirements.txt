@@ -3,3 +3,4 @@ Flask-CORS
 opencv-python
 numpy
 reportlab
+gunicorn
