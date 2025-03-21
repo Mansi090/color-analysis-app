@@ -4,6 +4,7 @@ from reportlab.pdfgen import canvas
 from flask_cors import CORS
 import cv2
 import numpy as np
+from waitress import serve
 
 app = Flask(__name__)
 CORS(app)
@@ -93,5 +94,7 @@ def get_dominant_color(image_path):
     dominant_color = palette[np.argmax(np.bincount(labels.flatten()))]
     return [int(c) for c in dominant_color]  # Convert to integers
 
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    serve(app, host="0.0.0.0", port=5000)
+
