@@ -5,6 +5,7 @@ from flask_cors import CORS
 import cv2
 import numpy as np
 from waitress import serve
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -95,6 +96,9 @@ def get_dominant_color(image_path):
     return [int(c) for c in dominant_color]  # Convert to integers
 
 
+
 if __name__ == '__main__':
-    serve(app, host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT, default to 5000 if not set
+    serve(app, host="0.0.0.0", port=port)
+
 
