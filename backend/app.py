@@ -236,5 +236,7 @@ def get_dominant_color(image_path):
 
     return [int(c) for c in palette[np.argmax(np.bincount(labels.flatten()))]]#+
 
+
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
