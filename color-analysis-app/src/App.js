@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import './App.css';
-
+import Chatbot from "./Chatbot";
 function App() {
   const [image, setImage] = useState(null);
   const [formData, setFormData] = useState({
@@ -58,6 +58,7 @@ function App() {
   };
 
   return (
+    <div className="App">
     <div className="min-h-screen bg-slate-900 py-8 px-4 flex items-center justify-center">
       <form onSubmit={handleSubmit} className="max-w-2xl w-full mx-auto bg-slate-800 rounded-2xl shadow-2xl p-8 border border-slate-700/50 backdrop-blur-lg bg-opacity-90">
         <div className="mb-8 text-center">
@@ -183,7 +184,8 @@ function App() {
           )}
         </div>
       </form>
-     
+      <Chatbot />
+      </div>
     </div>
   );
 }

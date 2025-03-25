@@ -12,33 +12,74 @@ import traceback
 import os
 from flask_cors import CORS
 import tempfile
+import requests
+import json
+import requests
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
+# Use environment variables for sensitive keys
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    data = request.get_json()
+    user_message = data.get("message", "").strip()
+    if not user_message:
+        return jsonify({"reply": "Please provide a message."})
+    
+    try:
+        headers = {
+            "Authorization": "Bearer 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",  # Replace with your actual API key
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://openrouter.ai/deepseek/deepseek-r1:free/api",  # Optional: your website URL
+            "X-Title": "OpenRouter"       # Optional: your site title
+        }
+        
+        payload = {
+            "model": "deepseek/deepseek-r1:free",
+            "messages": [
+                {"role": "user", "content": user_message}
+            ]
+        }
+        
+        response = requests.post(
+            url="https://openrouter.ai/api/v1/chat/completions",
+            headers=headers,
+            data=json.dumps(payload)
+        )
+        response_data = response.json()
+        print("OpenRouter API response:", response_data)  # For debugging
+        
+        # Extract the reply; adjust the keys if needed based on the API response structure.
+        bot_reply = (response_data.get("choices", [{}])[0]
+                     .get("message", {})
+                     .get("content", "Sorry, I couldn't process your request."))
+        
+        return jsonify({"reply": bot_reply})
+    
+    except Exception as e:
+        print("OpenRouter API error:", e)
+        return jsonify({"reply": "Sorry, I couldn't process your request. Please try again later."})
+
+
+
 # ---------------------------
-# ADD HEADER AND FOOTER FUNCTION
+# HELPER FUNCTIONS (for PDF generation)
 # ---------------------------
 def add_header_footer(canvas, doc):
-    """Add header and footer on every page"""
     canvas.saveState()
-    # Header using built-in Helvetica
     canvas.setFont('Helvetica', 10)
     canvas.setFillColor(colors.HexColor('#3498db'))
     canvas.drawString(40, doc.pagesize[1] - 40, "Personal Style Guide")
-    # Footer
     canvas.setFont('Helvetica', 8)
     page_num = canvas.getPageNumber()
     canvas.drawCentredString(doc.pagesize[0] / 2, 20, f"Page {page_num}")
-    # Decorative line
     canvas.setStrokeColor(colors.HexColor('#3498db'))
     canvas.setLineWidth(0.5)
     canvas.line(40, 50, doc.pagesize[0] - 40, 50)
     canvas.restoreState()
 
-# ---------------------------
-# HELPER FUNCTIONS
-# ---------------------------
 def get_season(rgb):
     r, g, b = rgb
     if r > g and r > b:
@@ -49,36 +90,16 @@ def get_season(rgb):
         return ("Winter", ["Deep Blue", "Burgundy", "Black"], ["Warm Beige", "Soft Browns"])
     return ("Autumn", ["Mustard", "Olive Green", "Rust"], ["Cool Blues", "Pinks"])
 
-def create_personal_info_table(stylesheet, personal_info):
-    return Table([
-        ["Name:", personal_info['name']],
-        ["Age:", personal_info['age']],
-        ["Gender:", personal_info['gender']],
-        ["Body Type:", personal_info['body_type']]
-    ], style=TableStyle([
-        ('FONTNAME', (0,0), (-1,-1), 'Helvetica-Bold'),
-        ('FONTSIZE', (0,0), (-1,-1), 12),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.HexColor('#2c3e50')),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
-        ('LINEABOVE', (0,0), (-1,0), 1, colors.HexColor('#3498db')),
-        ('BACKGROUND', (0,0), (0,-1), colors.HexColor('#f8f9fa'))
-    ]), colWidths=[1.5*inch, 4*inch])
-
-def create_recommendation_section(stylesheet, title, items):
-    elements = []
-    elements.append(Paragraph(title, styles['SectionHeader']))
-    bullet_items = []
-    for item in items:
-        bullet_items.append([Paragraph("•", styles['BodyText']),
-                             Paragraph(item, styles['BodyText'])])
-    elements.append(Table(bullet_items, colWidths=[0.3*inch, 6.5*inch],
-                          style=TableStyle([
-                              ('VALIGN', (0,0), (-1,-1), 'TOP'),
-                              ('LEFTPADDING', (1,0), (1,0), 6)
-                          ])))
-    elements.append(Spacer(1, 0.3*inch))
-    return elements
+def get_dominant_color(image_path):
+    image = cv2.imread(image_path)
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    pixels = np.float32(image.reshape(-1, 3))
+    unique_colors = np.unique(pixels, axis=0)
+    k = min(3, len(unique_colors))
+    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+    _, labels, palette = cv2.kmeans(pixels, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    dominant_index = np.argmax(np.bincount(labels.flatten()))
+    return [int(c) for c in palette[dominant_index]]
 
 def get_age_group(age):
     try:
@@ -93,20 +114,7 @@ def get_age_group(age):
     except:
         return 'adult'
 
-def get_dominant_color(image_path):
-    image = cv2.imread(image_path)
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    pixels = np.float32(image.reshape(-1, 3))
-    unique_colors = np.unique(pixels, axis=0)
-    k = min(3, len(unique_colors))
-    criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    _, labels, palette = cv2.kmeans(pixels, k, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
-    dominant_index = np.argmax(np.bincount(labels.flatten()))
-    return [int(c) for c in palette[dominant_index]]
-
-# ---------------------------
-# STYLE DATA AND STYLE SHEET
-# ---------------------------
+# Define your STYLE_DATA, COLOR_MAP, and styles (only once)
 STYLE_DATA = {
     "color_palettes": {
         "warm_tones": {"Peach": (255,218,185), "Terracotta": (204,78,52), "Mustard": (255,219,88),
@@ -167,17 +175,13 @@ STYLE_DATA = {
         "Experiment with proportion and scale"
     ]
 }
-
-# Merge color palettes into one dictionary
 COLOR_MAP = {}
 for palette in STYLE_DATA["color_palettes"].values():
     COLOR_MAP.update(palette)
 
-# Create a style sheet using system fonts
 styles = getSampleStyleSheet()
 title_font = 'Helvetica-Bold'
 body_font = 'Helvetica'
-
 styles.add(ParagraphStyle(
     name='MainTitle',
     fontName=title_font,
@@ -194,12 +198,10 @@ styles.add(ParagraphStyle(
     spaceBefore=12,
     spaceAfter=8
 ))
-# Update existing 'BodyText'
 styles['BodyText'].fontName = body_font
 styles['BodyText'].fontSize = 10
 styles['BodyText'].textColor = colors.HexColor('#2c3e50')
 styles['BodyText'].leading = 14
-
 styles.add(ParagraphStyle(
     name='SubHeader',
     fontName=title_font,
@@ -229,7 +231,6 @@ styles.add(ParagraphStyle(
 def generate_pdf():
     temp_image_path = None
     try:
-        # Extract personal information from form data
         personal_info = {
             'name': request.form.get('name', ''),
             'age': request.form.get('age', ''),
@@ -237,7 +238,6 @@ def generate_pdf():
             'body_type': request.form.get('bodyType', '').lower()
         }
 
-        # Handle image upload
         if 'image' not in request.files:
             return jsonify({"error": "No image uploaded"}), 400
 
@@ -248,16 +248,13 @@ def generate_pdf():
             dominant_color = get_dominant_color(temp_file.name)
             season, best_colors, avoid_colors = get_season(dominant_color)
 
-        # Create temporary PDF file
         with tempfile.NamedTemporaryFile(delete=False, suffix='.pdf') as pdf_file:
             pdf_path = pdf_file.name
 
-        # Compute additional variables
         body_type = personal_info['body_type']
         recommendations = STYLE_DATA["body_type_guidelines"].get(body_type, {}).get("dos", [])
         age_group = get_age_group(personal_info['age'])
 
-        # Initialize PDF document
         doc = SimpleDocTemplate(
             pdf_path,
             pagesize=letter,
@@ -268,7 +265,6 @@ def generate_pdf():
         )
         elements = []
 
-        # --- HEADER SECTION ---
         header = Table([
             [Paragraph("STYLE GUIDE", styles['MainTitle']),
              Image(temp_image_path, width=1.5*inch, height=1.5*inch)]
@@ -276,7 +272,6 @@ def generate_pdf():
         elements.append(header)
         elements.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#3498db'), spaceAfter=20))
 
-        # --- PERSONAL INFORMATION ---
         info_grid = [
             ["<b>Name:</b>", personal_info['name'], "<b>Age Group:</b>", age_group.title()],
             ["<b>Body Type:</b>", personal_info['body_type'].capitalize(), "<b>Style Profile:</b>", season.title()]
@@ -292,7 +287,6 @@ def generate_pdf():
         elements.append(info_table)
         elements.append(Spacer(1, 0.3*inch))
 
-        # --- BODY TYPE RECOMMENDATIONS ---
         def create_modern_section(title, items):
             section = []
             if title:
@@ -312,7 +306,6 @@ def generate_pdf():
             elements.extend(create_modern_section(f"Body Type: {body_type.capitalize()}", recommendations))
             elements.append(Spacer(1, 0.3*inch))
 
-        # --- COLOR PALETTE ANALYSIS ---
         elements.append(Paragraph("Color Palette Analysis", styles['SectionHeader']))
         color_grid = []
         for category, colors_list in [('Best Colors', best_colors), ('Avoid', avoid_colors)]:
@@ -341,7 +334,6 @@ def generate_pdf():
             ('BACKGROUND', (0,0), (-1,-1), colors.HexColor('#f8f9fa'))
         ])))
 
-        # --- ADDITIONAL RECOMMENDATIONS PAGE ---
         elements.append(PageBreak())
         elements.append(Paragraph("Personalized Style Guide", styles['MainTitle']))
         elements.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#3498db'), spaceAfter=20))
@@ -367,7 +359,6 @@ def generate_pdf():
         elements.append(Spacer(1, 0.5*inch))
         elements.append(Paragraph("* Colors may vary based on screen calibration. Always test colors in natural lighting.", styles['Disclaimer']))
 
-        # --- BUILD THE PDF ---
         doc.build(elements, onFirstPage=add_header_footer, onLaterPages=add_header_footer)
 
         @after_this_request
@@ -382,7 +373,7 @@ def generate_pdf():
         return send_file(pdf_path, as_attachment=True, mimetype='application/pdf')
 
     except Exception as e:
-        traceback.print_exc()  # This prints the full error details
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
     finally:
