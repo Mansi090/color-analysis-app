@@ -1,158 +1,191 @@
 import React, { useState } from "react";
-// In your App.js file, add this import at the top:
 import './App.css';
+
 function App() {
   const [image, setImage] = useState(null);
-  const [color, setColor] = useState(null);
-  const [file, setFile] = useState(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  
-  const handleImageUpload = async (event) => {
-    const uploadedFile = event.target.files[0];
-    if (uploadedFile) {
-      setImage(URL.createObjectURL(uploadedFile));
-      setFile(uploadedFile);
-      setUploadSuccess(true);
+  const [formData, setFormData] = useState({
+    name: '',
+    age: '',
+    gender: 'female',
+    bodyType: 'hourglass'
+  });
+  const [uploadStatus, setUploadStatus] = useState('idle');
 
-      const formData = new FormData();
-      formData.append("image", uploadedFile);
-
-      try {
-        const response = await fetch("http://127.0.0.1:5000/analyze-color", {
-          method: "POST",
-          body: formData,
-        });
-
-        if (!response.ok) throw new Error("Failed to fetch color data");
-        
-        const data = await response.json();
-        setColor(`rgb(${data.dominant_color.join(",")})`);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+  const handleInputChange = (e) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
   };
 
-  const downloadPDF = async () => {
-    if (!file) {
-      alert("Upload an image first!");
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append("image", file);
-  
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => setImage(reader.result);
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setUploadStatus('loading');
+    
+    const formPayload = new FormData();
+    formPayload.append('image', e.target.image.files[0]);
+    Object.entries(formData).forEach(([key, value]) => {
+      formPayload.append(key, value);
+    });
+
     try {
-      const response = await fetch("http://127.0.0.1:5000/generate-pdf", {
+      const response = await fetch("http://localhost:5000/generate-pdf", {
         method: "POST",
-        body: formData,
+        body: formPayload,
       });
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Server error: ${errorText}`);
-      }
-  
+
+      if (!response.ok) throw new Error('Report generation failed');
+      
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "color_analysis.pdf";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'style-analysis.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setUploadStatus('success');
     } catch (error) {
-      console.error("Error downloading PDF:", error);
-      alert(`Failed to generate report: ${error.message}`);
+      console.error(error);
+      setUploadStatus('error');
     }
   };
 
   return (
     <div className="min-h-screen bg-slate-900 py-8 px-4 flex items-center justify-center">
-      <div className="max-w-md w-full mx-auto bg-slate-800 rounded-2xl shadow-2xl p-8 border border-slate-700/50 backdrop-blur-lg bg-opacity-90">
+      <form onSubmit={handleSubmit} className="max-w-2xl w-full mx-auto bg-slate-800 rounded-2xl shadow-2xl p-8 border border-slate-700/50 backdrop-blur-lg bg-opacity-90">
         <div className="mb-8 text-center">
-          <div className="animate-pulse-slow bg-gradient-to-r from-rose-400 to-violet-600 w-24 h-24 rounded-full mx-auto mb-4 shadow-glow" />
           <h1 className="text-4xl font-light text-transparent bg-clip-text bg-gradient-to-r from-rose-300 to-violet-400 mb-2">
-          Color Analysis
+            Personal Style Analyzer
           </h1>
-          <p className="text-slate-400 font-light">Color Analysis Suite</p>
+          <p className="text-slate-400 font-light">Complete Style Assessment Suite</p>
         </div>
 
         <div className="space-y-6">
-          <label className="block group cursor-pointer transform transition-all hover:scale-[1.01]">
-            <div className="border-2 border-dashed border-slate-600 rounded-xl p-6 transition-all hover:border-rose-500/50 hover:bg-slate-700/20">
+          {/* Personal Information Section */}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="text-slate-300 block mb-2">Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-rose-500"
+                required
+              />
+            </div>
+            
+            <div>
+              <label className="text-slate-300 block mb-2">Age</label>
+              <input
+                type="number"
+                name="age"
+                value={formData.age}
+                onChange={handleInputChange}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-rose-500"
+                min="13"
+                max="100"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="text-slate-300 block mb-2">Gender</label>
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleInputChange}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-rose-500"
+              >
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="non-binary">Non-Binary</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="text-slate-300 block mb-2">Body Type</label>
+              <select
+                name="bodyType"
+                value={formData.bodyType}
+                onChange={handleInputChange}
+                className="w-full bg-slate-700/50 border border-slate-600 rounded-lg px-4 py-3 text-slate-200 focus:outline-none focus:border-rose-500"
+              >
+                <option value="hourglass">Hourglass</option>
+                <option value="pear">Pear</option>
+                <option value="apple">Apple</option>
+                <option value="rectangle">Rectangle</option>
+                <option value="inverted-triangle">Inverted Triangle</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Image Upload Section */}
+          <div className="border-2 border-dashed border-slate-600 rounded-xl p-6 transition-all hover:border-rose-500/50 hover:bg-slate-700/20">
+            <label className="cursor-pointer block">
               <div className="text-center space-y-3">
-                <div className="text-3xl opacity-80">🖼️</div>
+                <div className="text-3xl opacity-80">📸</div>
                 <p className="text-lg font-medium text-slate-200">
-                  Capture or Upload
+                  Upload Your Photo
                 </p>
                 <p className="text-sm text-slate-400 font-light">
-                  Recommended: High-resolution image with natural lighting
+                  Full-body photo in natural lighting recommended
                 </p>
               </div>
               <input
                 type="file"
+                name="image"
                 accept="image/*"
                 capture="environment"
                 onChange={handleImageUpload}
                 className="hidden"
+                required
               />
-            </div>
-          </label>
-
-          {uploadSuccess && (
-            <div className="bg-emerald-900/30 border border-emerald-800/50 text-emerald-300 px-4 py-3 rounded-lg flex items-center space-x-3 animate-fade-in">
-              <span className="text-xl">🌟</span>
-              <span className="font-light">Image Perfectly Captured</span>
-            </div>
-          )}
+            </label>
+          </div>
 
           {image && (
             <div className="relative group overflow-hidden rounded-xl border border-slate-700 shadow-xl">
               <img 
                 src={image} 
-                alt="Analysis preview" 
+                alt="Upload preview" 
                 className="w-full h-64 object-cover transform transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-            </div>
-          )}
-
-          {color && (
-            <div className="bg-slate-700/20 p-6 rounded-xl border border-slate-700/50 space-y-4 backdrop-blur-sm">
-              <h3 className="text-xl font-light text-rose-100">Dominant Hue</h3>
-              <div className="relative h-24 rounded-xl overflow-hidden transform transition-transform hover:scale-[1.02]">
-                <div 
-                  className="absolute inset-0 opacity-90"
-                  style={{ backgroundColor: color }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent to-slate-900/40" />
-                <span className="absolute bottom-3 right-3 font-mono text-sm text-slate-100 bg-slate-900/30 px-3 py-1 rounded-full backdrop-blur-sm">
-                  {color}
-                </span>
-              </div>
             </div>
           )}
 
           <button
-            onClick={downloadPDF}
-            className="w-full bg-gradient-to-r from-rose-500/80 to-violet-600/80 text-slate-100 py-4 rounded-xl font-light transition-all hover:shadow-lg hover:from-rose-500 hover:to-violet-600 flex items-center justify-center space-x-3"
+            type="submit"
+            disabled={uploadStatus === 'loading'}
+            className="w-full bg-gradient-to-r from-rose-500/80 to-violet-600/80 text-slate-100 py-4 rounded-xl font-light transition-all hover:shadow-lg hover:from-rose-500 hover:to-violet-600 flex items-center justify-center space-x-3 disabled:opacity-50"
           >
-            <span className="text-xl">📜</span>
-            <span>Generate  Report</span>
+            {uploadStatus === 'loading' ? (
+              <span className="animate-spin">⏳</span>
+            ) : (
+              <>
+                <span className="text-xl">📊</span>
+                <span>Generate Full Analysis Report</span>
+              </>
+            )}
           </button>
 
-          <div className="text-center text-slate-400 text-sm pt-6 border-t border-slate-700/50">
-            <p className="flex items-center justify-center space-x-2">
-              <span>💎</span>
-              <span className="font-light italic">Professional Tip: Use diffused lighting for optimal color accuracy</span>
-            </p>
-          </div>
+          {uploadStatus === 'error' && (
+            <div className="text-red-400 text-center">
+              Error generating report. Please try again.
+            </div>
+          )}
         </div>
-      </div>
+      </form>
+     
     </div>
   );
 }
-
 
 export default App;
