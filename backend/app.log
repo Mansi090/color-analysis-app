@@ -1,0 +1,111 @@
+2025-05-08 13:52:37,433 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-08 13:52:37,433 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 13:52:37,456 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:52:38,490 WARNING:  * Debugger is active!
+2025-05-08 13:52:38,501 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:54:47,639 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-08 13:54:47,648 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 13:54:47,675 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:54:49,038 WARNING:  * Debugger is active!
+2025-05-08 13:54:49,041 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:56:11,433 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-08 13:56:11,435 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 13:56:11,455 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:56:12,896 WARNING:  * Debugger is active!
+2025-05-08 13:56:12,901 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:56:50,687 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:56:50,689 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:56:50,691 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:56:51,587 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:59:18,955 INFO: Starting Flask server
+2025-05-08 13:59:19,038 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-08 13:59:19,038 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 13:59:19,065 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:59:20,102 INFO: Starting Flask server
+2025-05-08 13:59:20,136 WARNING:  * Debugger is active!
+2025-05-08 13:59:20,144 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:59:37,347 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:37,347 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:37,347 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:37,783 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:37,793 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:38,636 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:59:39,937 INFO: Starting Flask server
+2025-05-08 13:59:39,969 WARNING:  * Debugger is active!
+2025-05-08 13:59:39,969 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:59:44,568 INFO: Starting Flask server
+2025-05-08 13:59:44,628 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://192.168.67.161:5001
+2025-05-08 13:59:44,628 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 13:59:44,653 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:59:45,718 INFO: Starting Flask server
+2025-05-08 13:59:45,741 WARNING:  * Debugger is active!
+2025-05-08 13:59:45,745 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:59:51,610 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:51,613 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:51,955 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 13:59:53,377 INFO: Starting Flask server
+2025-05-08 13:59:53,426 WARNING:  * Debugger is active!
+2025-05-08 13:59:53,434 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 13:59:55,012 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:55,033 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 13:59:55,640 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 14:12:53,341 INFO: Starting Flask server
+2025-05-08 14:12:53,378 WARNING:  * Debugger is active!
+2025-05-08 14:12:53,395 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 14:13:02,402 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:02,402 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:02,407 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:04,744 INFO: Starting Flask server
+2025-05-08 14:13:04,760 WARNING:  * Debugger is active!
+2025-05-08 14:13:04,781 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 14:13:06,180 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:06,180 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:06,180 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\b tech\\Aprojeccts\\color-analysis-app\\backend\\app.py', reloading
+2025-05-08 14:13:08,834 INFO: Starting Flask server
+2025-05-08 14:13:08,867 WARNING:  * Debugger is active!
+2025-05-08 14:13:08,881 INFO:  * Debugger PIN: 763-356-518
+2025-05-08 14:13:30,943 INFO: Starting Flask server
+2025-05-08 14:13:31,012 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-08 14:13:31,012 INFO: [33mPress CTRL+C to quit[0m
+2025-05-08 14:13:31,028 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-08 14:13:32,047 INFO: Starting Flask server
+2025-05-08 14:13:32,063 WARNING:  * Debugger is active!
+2025-05-08 14:13:32,073 INFO:  * Debugger PIN: 763-356-518
+2025-05-09 15:54:20,319 INFO: Starting Flask server
+2025-05-09 15:54:20,402 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-09 15:54:20,402 INFO: [33mPress CTRL+C to quit[0m
+2025-05-09 15:54:20,430 INFO:  * Restarting with watchdog (windowsapi)
+2025-05-09 15:54:21,113 INFO: Starting Flask server
+2025-05-09 15:54:21,129 WARNING:  * Debugger is active!
+2025-05-09 15:54:21,129 INFO:  * Debugger PIN: 763-356-518
+2025-05-09 15:55:50,566 INFO: Starting PDF generation
+2025-05-09 15:55:50,595 INFO: Personal info: {'name': 'Mansi Dixit', 'age': '13', 'gender': '', 'body_type': 'hourglass'}
+2025-05-09 15:55:50,666 INFO: Image saved to C:\Users\mansi\AppData\Local\Temp\tmpp1f6jqa7.jpg
+2025-05-09 15:55:55,094 INFO: Dominant color: [116, 118, 118], Season: Autumn
+2025-05-09 15:55:55,111 INFO: PDF will be saved to C:\Users\mansi\AppData\Local\Temp\tmp7eymjelr.pdf
+2025-05-09 15:55:55,520 INFO: Building PDF
+2025-05-09 15:55:57,357 INFO: PDF built successfully
+2025-05-09 15:55:57,516 INFO: Removed temp image: C:\Users\mansi\AppData\Local\Temp\tmpp1f6jqa7.jpg
+2025-05-09 15:55:57,535 ERROR: Error removing PDF file: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\mansi\\AppData\\Local\\Temp\\tmp7eymjelr.pdf'
+2025-05-09 15:55:57,545 INFO: 127.0.0.1 - - [09/May/2025 15:55:57] "POST /generate-pdf HTTP/1.1" 200 -
