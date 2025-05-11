@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Style Guide for {{ personal_info.name }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .color-swatch {
+            width: 100px;
+            height: 60px;
+            display: inline-block;
+            margin: 5px;
+            text-align: center;
+            color: white;
+            padding-top: 20px;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg my-8">
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-4">Personal Style Guide</h1>
+        <h2 class="text-2xl text-center text-gray-600 mb-8">Prepared for {{ personal_info.name }}</h2>
+        
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Personal Profile</h3>
+            <div class="grid grid-cols-2 gap-4">
+                <p><strong>Name:</strong> {{ personal_info.name }}</p>
+                <p><strong>Age Group:</strong> {{ personal_info.age_group }}</p>
+                <p><strong>Gender:</strong> {{ personal_info.gender }}</p>
+                <p><strong>Body Type:</strong> {{ personal_info.body_type }}</p>
+                <p><strong>Style Season:</strong> {{ season }}</p>
+            </div>
+            <img src="data:image/png;base64,{{ image_base64 }}" alt="Profile Image" class="mt-4 mx-auto rounded-lg shadow-md" style="max-width: 200px;">
+        </div>
+
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold text-gray-700 mb-4">Color Analysis</h3>
+            <p><strong>Dominant Color:</strong> RGB{{ dominant_color }}</p>
+            <p><strong>Season:</strong> {{ season }}</p>
+            
+            <h4 class="text-lg font-semibold mt-4 mb-2">Recommended Colors</h4>
+            <div>
+                {% for color in best_colors %}
+                    {% set rgb = COLOR_MAP[color] %}
+                    <div class="color-swatch" style="background-color: rgb(0 , 1, 2);">
+                        {{ color }}<br>#{{ '%02x%02x%02x' % rgb }}
+                    </div>
+                {% endfor %}
+            </div>
+
+            
+
+
+        
+    </div>
+</body>
+</html>
+
+

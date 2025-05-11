@@ -1,0 +1,56 @@
+2025-05-11 09:20:57,194 INFO: Starting Flask server
+2025-05-11 09:20:57,313 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-11 09:20:57,313 INFO: [33mPress CTRL+C to quit[0m
+2025-05-11 09:20:57,313 INFO:  * Restarting with stat
+2025-05-11 09:20:58,290 INFO: Starting Flask server
+2025-05-11 09:20:58,316 WARNING:  * Debugger is active!
+2025-05-11 09:20:58,323 INFO:  * Debugger PIN: 372-826-116
+2025-05-11 09:22:20,325 INFO: Starting PDF generation
+2025-05-11 09:22:20,388 INFO: Personal info: {'name': 'mansi', 'age': '15', 'gender': '', 'body_type': 'hourglass'}
+2025-05-11 09:22:20,424 INFO: Image saved to C:\Users\mansi\AppData\Local\Temp\tmp2bzt28rt.jpg
+2025-05-11 09:22:23,487 INFO: Detected 0 faces in image
+2025-05-11 09:22:23,487 INFO: No faces detected, performing skin tone check
+2025-05-11 09:22:23,570 INFO: Skin pixel ratio: 0.58%
+2025-05-11 09:22:23,570 ERROR: Image does not contain sufficient human-like features
+2025-05-11 09:22:23,620 ERROR: No human detected in the uploaded image
+2025-05-11 09:22:23,634 INFO: Removed temp image: C:\Users\mansi\AppData\Local\Temp\tmp2bzt28rt.jpg
+2025-05-11 09:22:23,655 INFO: 127.0.0.1 - - [11/May/2025 09:22:23] "[31m[1mPOST /generate-pdf HTTP/1.1[0m" 400 -
+2025-05-11 09:22:42,553 INFO: Starting PDF generation
+2025-05-11 09:22:42,570 INFO: Personal info: {'name': 'mansi', 'age': '15', 'gender': '', 'body_type': 'hourglass'}
+2025-05-11 09:22:42,589 INFO: Image saved to C:\Users\mansi\AppData\Local\Temp\tmp9obfmyrp.jpg
+2025-05-11 09:22:43,330 INFO: Detected 0 faces in image
+2025-05-11 09:22:43,332 INFO: No faces detected, performing skin tone check
+2025-05-11 09:22:43,357 INFO: Skin pixel ratio: 0.58%
+2025-05-11 09:22:43,363 ERROR: Image does not contain sufficient human-like features
+2025-05-11 09:22:43,392 ERROR: No human detected in the uploaded image
+2025-05-11 09:22:43,397 INFO: Removed temp image: C:\Users\mansi\AppData\Local\Temp\tmp9obfmyrp.jpg
+2025-05-11 09:22:43,403 INFO: 127.0.0.1 - - [11/May/2025 09:22:43] "[31m[1mPOST /generate-pdf HTTP/1.1[0m" 400 -
+2025-05-11 09:24:21,074 INFO: Starting Flask server
+2025-05-11 09:24:21,143 INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.67.161:5000
+2025-05-11 09:24:21,143 INFO: [33mPress CTRL+C to quit[0m
+2025-05-11 09:24:21,149 INFO:  * Restarting with stat
+2025-05-11 09:24:22,029 INFO: Starting Flask server
+2025-05-11 09:24:22,049 WARNING:  * Debugger is active!
+2025-05-11 09:24:22,049 INFO:  * Debugger PIN: 372-826-116
+2025-05-11 09:24:56,879 INFO: Starting PDF generation
+2025-05-11 09:24:56,926 INFO: Personal info: {'name': 'Postman API Fundamentals Student Expert', 'age': '13', 'gender': '', 'body_type': 'hourglass'}
+2025-05-11 09:24:56,941 INFO: Image saved to C:\Users\mansi\AppData\Local\Temp\tmpehbyf9dg.jpg
+2025-05-11 09:24:58,386 INFO: Detected 3 faces in image
+2025-05-11 09:25:13,569 INFO: Dominant color: [35, 33, 33], Season: Spring
+2025-05-11 09:25:13,572 INFO: PDF will be saved to C:\Users\mansi\AppData\Local\Temp\tmpb_gskp5k.pdf
+2025-05-11 09:25:13,587 INFO: Building PDF
+2025-05-11 09:25:13,671 INFO: PDF built successfully
+2025-05-11 09:25:13,867 INFO: Removed temp image: C:\Users\mansi\AppData\Local\Temp\tmpehbyf9dg.jpg
+2025-05-11 09:25:13,871 ERROR: Error removing PDF file: [WinError 32] The process cannot access the file because it is being used by another process: 'C:\\Users\\mansi\\AppData\\Local\\Temp\\tmpb_gskp5k.pdf'
+2025-05-11 09:25:13,882 INFO: 127.0.0.1 - - [11/May/2025 09:25:13] "POST /generate-pdf HTTP/1.1" 200 -
+2025-05-11 09:29:54,530 INFO:  * Detected change in 'C:\\Users\\mansi\\OneDrive\\Desktop\\color\\backend\\app.py', reloading
+2025-05-11 09:29:55,119 INFO:  * Restarting with stat
+2025-05-11 09:29:57,984 INFO: Starting Flask server
+2025-05-11 09:29:58,047 WARNING:  * Debugger is active!
+2025-05-11 09:29:58,047 INFO:  * Debugger PIN: 372-826-116

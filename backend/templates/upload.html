@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Style Guide Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .progress-container { display: none; }
+        .progress-container.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Style Guide Generator</h1>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="bg-{{ 'red' if category == 'error' else 'green' }}-100 border-{{ 'red' if category == 'error' else 'green' }}-400 text-{{ 'red' if category == 'error' else 'green' }}-700 px-4 py-3 rounded mb-4">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form id="uploadForm" method="post" enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow-md">
+            <div class="mb-4">
+                <label for="name" class="block text-gray-700 font-bold mb-2">Name</label>
+                <input type="text" id="name" name="name" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="age" class="block text-gray-700 font-bold mb-2">Age</label>
+                <input type="number" id="age" name="age" required min="1" max="150" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div class="mb-4">
+                <label for="gender" class="block text-gray-700 font-bold mb-2">Gender</label>
+                <select id="gender" name="gender" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="prefer-not-to-say">Prefer not to say</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="bodyType" class="block text-gray-700 font-bold mb-2">Body Type</label>
+                <select id="bodyType" name="bodyType" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="">Select Body Type</option>
+                    <option value="hourglass">Hourglass</option>
+                    <option value="rectangle">Rectangle</option>
+                    <option value="pear">Pear</option>
+                    <option value="apple">Apple</option>
+                </select>
+            </div>
+            <div class="mb-4">
+                <label for="image" class="block text-gray-700 font-bold mb-2">Upload Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required class="w-full px-3 py-2 border rounded-lg">
+            </div>
+            <div class="mb-4">
+                <label for="outputFormat" class="block text-gray-700 font-bold mb-2">Output Format</label>
+                <select id="outputFormat" name="outputFormat" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="pdf">PDF</option>
+                    <option value="html">HTML</option>
+                </select>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                Generate Style Guide
+            </button>
+        </form>
+
+        <div id="progressContainer" class="progress-container mt-4">
+            <div class="bg-gray-200 rounded-full h-2.5">
+                <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+            </div>
+            <p id="progressText" class="text-center mt-2 text-gray-600">Processing...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const form = this;
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+            const outputFormat = document.getElementById('outputFormat').value;
+
+            progressContainer.classList.add('active');
+            progressBar.style.width = '10%';
+            progressText.textContent = 'Uploading image...';
+
+            try {
+                const formData = new FormData(form);
+                const action = outputFormat === 'pdf' ? '/generate-pdf' : '/export-html';
+                
+                const response = await fetch(action, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                progressBar.style.width = '50%';
+                progressText.textContent = 'Processing image...';
+
+                if (!response.ok) {
+                    throw new Error('Failed to generate style guide');
+                }
+
+                progressBar.style.width = '80%';
+                progressText.textContent = 'Generating style guide...';
+
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = outputFormat === 'pdf' ? 'style_guide.pdf' : 'style_guide.html';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.releaseObjectURL(url);
+
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Complete!';
+            } catch (error) {
+                progressContainer.classList.remove('active');
+                alert('Error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>
+
